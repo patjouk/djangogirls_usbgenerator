@@ -13,6 +13,13 @@ def download_file(address, filename):
                 f.flush()
 
 
+def download_steps():
+    print("First step: tutorial!")
+    tutorial()
+    print("Second step: Bootstrap!")
+    bootstrap()
+
+
 def list_tutorial_languages():
     """Create a list with all the languages available for the tutorial"""
     r = requests.get("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial")
@@ -40,7 +47,7 @@ def tutorial():
 
 
 def bootstrap():
-"""Download Bootstrap"""
+    """Download Bootstrap"""
     try:
         os.mkdir("downloads")
     except FileExistsError:
@@ -56,4 +63,4 @@ def bootstrap():
 
 
 if __name__ == '__main__':
-    bootstrap()
+    download_steps()
