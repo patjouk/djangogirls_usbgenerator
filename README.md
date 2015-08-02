@@ -7,11 +7,21 @@ The USB generator is a script to download everything you need for the workshop i
 
 ### What's in it?
 
-You can chose to download everything or some parts and for every OS or not. You can chose as many language you want for the tutorial.
+You can chose to download everything or some parts and for every OS or not. You can chose as many languages you want for the tutorial.
 
-- Django Girls tutorial (chose the language⋅s you want)
-- Python 3.4.3 (chose the OS you want)
+- Django Girls tutorial
+
+Roadmap:
+- Python 3.4.3
 - Django 1.8
 - Bootstrap
 
 ### How to use it?
+
+Launch the script:
+
+```
+python generator.py
+```
+
+Follow the instruction for each step.
