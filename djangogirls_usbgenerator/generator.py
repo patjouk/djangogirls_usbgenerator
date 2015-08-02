@@ -2,6 +2,7 @@ import requests
 import re
 import os
 
+
 def download_file(address, filename):
     """Generic function for downloading stuff"""
     r = requests.get(address, stream=True)
@@ -11,16 +12,18 @@ def download_file(address, filename):
                 f.write(chunk)
                 f.flush()
 
+
 def list_tutorial_languages():
     """Create a list with all the languages available for the tutorial"""
     r = requests.get("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial")
     tutorials = re.findall(r"\?lang=(.{2})\">([^<]*)<", r.text)
     return dict(tutorials)
 
+
 def tutorial():
     """Download tutorial, multiple languages possible"""
     try:
-        os.mkdir("tutorial")
+        os.mkdir("downloads")
     except FileExistsError:
         pass
     tutorials = list_tutorial_languages()
@@ -32,8 +35,25 @@ def tutorial():
         else:
             print("2 letters code not recognized. Choose again in this list: %s" %tutorials)
     for i in choice:
-        download_file("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang=%s" %i, "tutorial/tutorial_%s.pdf" %i)
+        download_file("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang=%s" %i, "downloads/tutorial_%s.pdf" %i)
         print("%s tutorial downloaded" %tutorials[i])
 
+
+def bootstrap():
+"""Download Bootstrap"""
+    try:
+        os.mkdir("downloads")
+    except FileExistsError:
+        pass
+    r = requests.get("http://getbootstrap.com/getting-started")
+    m = re.search(r'<a href="([^"]*)"[^>]*>Download Bootstrap</a>', r.text)
+    if m:
+        link = m.group(1)
+        download_file(link, "downloads/bootstrap.zip")
+        print("Bootstrap downloaded.")
+    else:
+        print("Failed to find download URL for Bootstrap.")
+
+
 if __name__ == '__main__':
-    tutorial()
+    bootstrap()
