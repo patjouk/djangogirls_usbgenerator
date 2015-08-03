@@ -29,15 +29,8 @@ def yes_no(function):
     elif choice in ("no", "n"):
         print("Ok, let's move to the next step!")
     else:
-        while choice not in ("yes", "y", "no", "n"):
-            print("I didn't understand your answer. Please, enter enter yes or no:")
-            new_choice = input()
-            if new_choice in ("yes", "y"):
-                function()
-                break
-            elif new_choice in ("no", "n"):
-                print("Ok, let's move to the next step!")
-                break
+        print("I didn't understand your answer. Please, enter enter yes or no:")
+        yes_no(function)
 
 
 def list_tutorial_languages():
