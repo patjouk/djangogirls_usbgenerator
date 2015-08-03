@@ -24,18 +24,18 @@ def download_file(address, filename):
 def yes_no(function):
     """Function to give user the choice to skip a step"""
     choice = input()
-    if choice == "yes":
+    if choice in ("yes", "y"):
         function()
-    elif choice == "no":
+    elif choice in ("no", "n"):
         print("Ok, let's move to the next step!")
     else:
-        while choice != "yes" or "no":
+        while choice not in ("yes", "y", "no", "n"):
             print("I didn't understand your answer. Please, enter enter yes or no:")
             new_choice = input()
-            if new_choice == "yes":
+            if new_choice in ("yes", "y"):
                 function()
                 break
-            elif new_choice == "no":
+            elif new_choice in ("no", "n"):
                 print("Ok, let's move to the next step!")
                 break
 
