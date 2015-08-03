@@ -2,6 +2,8 @@ import requests
 import re
 import os
 import cgi
+from clint.textui import progress
+
 
 def download_steps():
     """Launch the different downloading function"""
@@ -17,8 +19,9 @@ def download_file(address, folder):
     r = requests.get(address, stream=True)
     _, params = cgi.parse_header(r.headers["Content-Disposition"])
     name = params["filename"]
+    total_length = int(r.headers.get('content-length'))
     with open(folder+"/"+name, "wb") as f:
-        for chunk in r.iter_content(1024):
+        for chunk in progress.bar(r.iter_content(1024), expected_size=(total_length/1024) + 1):
             if chunk:
                 f.write(chunk)
                 f.flush()
