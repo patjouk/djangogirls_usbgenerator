@@ -1,7 +1,7 @@
 import requests
 import re
 import os
-
+import cgi
 
 def download_steps():
     """Launch the different downloading function"""
@@ -12,14 +12,17 @@ def download_steps():
     print("You're done! Bye :)")
 
 
-def download_file(address, filename):
+def download_file(address, folder):
     """Function for downloading stuff"""
     r = requests.get(address, stream=True)
-    with open(filename, "wb") as f:
+    _, params = cgi.parse_header(r.headers["Content-Disposition"])
+    name = params["filename"]
+    with open(folder+"/"+name, "wb") as f:
         for chunk in r.iter_content(1024):
             if chunk:
                 f.write(chunk)
                 f.flush()
+
 
 def yes_no(function):
     """Function to give user the choice to skip a step"""
@@ -55,7 +58,7 @@ def tutorial():
         else:
             print("2 letters code not recognized. Choose again in this list: %s" %tutorials)
     for i in choice:
-        download_file("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang=%s" %i, "downloads/tutorial_%s.pdf" %i)
+        download_file("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang=%s" %i, "downloads/")
         print("%s tutorial downloaded" %tutorials[i])
 
 
@@ -69,11 +72,11 @@ def bootstrap():
     m = re.search(r'<a href="([^"]*)"[^>]*>Download Bootstrap</a>', r.text)
     if m:
         link = m.group(1)
-        download_file(link, "downloads/bootstrap.zip")
+        download_file(link, "downloads/")
         print("Bootstrap downloaded.")
     else:
         print("Failed to find download URL for Bootstrap. Falling back to hardcoded download link.")
-        download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/bootstrap.zip")
+        download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/")
 
 
 if __name__ == '__main__':
