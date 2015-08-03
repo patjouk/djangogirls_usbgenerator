@@ -3,8 +3,17 @@ import re
 import os
 
 
+def download_steps():
+    """Launch the different downloading function"""
+    print("First step: tutorial!\nDo you want to download it? Enter yes or no:")
+    yes_no(tutorial)
+    print("Second step: Bootstrap!\nDo you want to download it? Enter yes or no:")
+    yes_no(bootstrap)
+    print("You're done! Bye :)")
+
+
 def download_file(address, filename):
-    """Generic function for downloading stuff"""
+    """Function for downloading stuff"""
     r = requests.get(address, stream=True)
     with open(filename, "wb") as f:
         for chunk in r.iter_content(1024):
@@ -12,12 +21,23 @@ def download_file(address, filename):
                 f.write(chunk)
                 f.flush()
 
-
-def download_steps():
-    print("First step: tutorial!")
-    tutorial()
-    print("Second step: Bootstrap!")
-    bootstrap()
+def yes_no(function):
+    """Function to give user the choice to skip a step"""
+    choice = input()
+    if choice == "yes":
+        function()
+    elif choice == "no":
+        print("Ok, let's move to the next step!")
+    else:
+        while choice != "yes" or "no":
+            print("I didn't understand your answer. Please, enter enter yes or no:")
+            new_choice = input()
+            if new_choice == "yes":
+                function()
+                break
+            elif new_choice == "no":
+                print("Ok, let's move to the next step!")
+                break
 
 
 def list_tutorial_languages():
@@ -59,7 +79,8 @@ def bootstrap():
         download_file(link, "downloads/bootstrap.zip")
         print("Bootstrap downloaded.")
     else:
-        print("Failed to find download URL for Bootstrap.")
+        print("Failed to find download URL for Bootstrap. Falling back to hardcoded download link.")
+        download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/bootstrap.zip")
 
 
 if __name__ == '__main__':
