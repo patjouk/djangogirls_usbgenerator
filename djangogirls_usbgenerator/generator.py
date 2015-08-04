@@ -11,6 +11,8 @@ def download_steps():
     yes_no(tutorial)
     print("Second step: Bootstrap!\nDo you want to download it? Enter yes or no:")
     yes_no(bootstrap)
+    print("Third step: code editors!\nDo you want to download it? Enter yes or no:")
+    yes_no(code_editors)
     print("You're done! Bye :)")
 
 
@@ -21,8 +23,11 @@ def download_file(address, folder):
     except FileExistsError:
         pass
     r = requests.get(address, stream=True)
-    _, params = cgi.parse_header(r.headers["Content-Disposition"])
-    name = params["filename"]
+    if "Content-Disposition" in r.headers:
+        _, params = cgi.parse_header(r.headers["Content-Disposition"])
+        name = params["filename"]
+    else:
+        name = address.split("/")[-1]
     total_length = int(r.headers.get('content-length'))
     with open(folder+"/"+name, "wb") as f:
         for chunk in progress.bar(r.iter_content(1024), expected_size=(total_length/1024) + 1):
@@ -39,7 +44,7 @@ def yes_no(function):
     elif choice in ("no", "n"):
         print("Ok, let's move to the next step!")
     else:
-        print("I didn't understand your answer. Please, enter enter yes or no:")
+        print("I didn't understand your answer. Please, enter yes or no:")
         yes_no(function)
 
 
@@ -76,6 +81,20 @@ def bootstrap():
     else:
         print("Failed to find download URL for Bootstrap. Falling back to hardcoded download link.")
         download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/")
+
+def code_editors():
+    print("Do you want to download Sublime Text 2? Enter enter yes or no:")
+    yes_no(sublime_text)
+
+
+def sublime_text():
+    """Download multiple code editor"""
+    download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2 Setup.exe", "downloads/")
+    print("Sublime Text 2 for windows downloaded.")
+    download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2.dmg", "downloads/")
+    print("Sublime Text 2 for mac downloaded.")
+    download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2.tar.bz2", "downloads/")
+    print("Sublime Text 2 for linux downloaded.")
 
 
 if __name__ == '__main__':
