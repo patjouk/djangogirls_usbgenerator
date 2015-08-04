@@ -16,6 +16,10 @@ def download_steps():
 
 def download_file(address, folder):
     """Function for downloading stuff"""
+    try:
+        os.mkdir("downloads")
+    except FileExistsError:
+        pass
     r = requests.get(address, stream=True)
     _, params = cgi.parse_header(r.headers["Content-Disposition"])
     name = params["filename"]
@@ -48,10 +52,6 @@ def list_tutorial_languages():
 
 def tutorial():
     """Download tutorial, multiple languages possible"""
-    try:
-        os.mkdir("downloads")
-    except FileExistsError:
-        pass
     tutorials = list_tutorial_languages()
     print("Translations available %s. \nPlease, enter your choice (2 letters language code). If multiple choices, use space as a separator." %tutorials)
     while True:
@@ -67,10 +67,6 @@ def tutorial():
 
 def bootstrap():
     """Download Bootstrap"""
-    try:
-        os.mkdir("downloads")
-    except FileExistsError:
-        pass
     r = requests.get("http://getbootstrap.com/getting-started")
     m = re.search(r'<a href="([^"]*)"[^>]*>Download Bootstrap</a>', r.text)
     if m:
