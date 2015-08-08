@@ -10,15 +10,17 @@ from pyfiglet import Figlet
 def download_steps():
     """Launch the different downloading function"""
     introduction()
-    print("First step: tutorial!\nDo you want to download it?")
+    print("Do you want to download the tutorial?")
     yes_no(tutorial)
-    print("Second step: Bootstrap!\nDo you want to download it?")
+    print("Do you want to download Bootstrap?")
     yes_no(bootstrap)
-    print("Third step: Python!\nDo you want to download it?")
+    print("Do you want to download Lobster font?")
+    yes_no(lobster)
+    print("Do you want to download Python?")
     yes_no(python)
-    print("Fourth step: Django!\nDo you want to download it?")
+    print("Do you want to download Django?")
     yes_no(django)
-    print("Fifth step: code editor!\nDo you want to download it?")
+    print("Do you want to download code editors?")
     yes_no(code_editors)
     print("You're done! Bye :)")
 
@@ -100,6 +102,9 @@ def bootstrap():
         print("Failed to find download URL for Bootstrap. Falling back to hardcoded download link.")
         download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/")
 
+def lobster():
+    download_file("http://dl.dafont.com/dl/?f=lobster", "downloads/")
+    print("Lobster font downloaded.")
 
 def python():
     download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3.msi", "downloads/")
