@@ -30,7 +30,7 @@ def introduction():
     print(f.renderText('Django Girls'))
     print("""This script will help you to download everything you need for the workshop in case there is no Internet.
 Valid answers for each step: yes, y, enter or no, n.
-enter q to quit.\n""")
+Enter q to quit.\n""")
 
 
 def download_file(address, folder):
