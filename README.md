@@ -25,3 +25,4 @@ python generator.py
 ```
 
 Follow the instruction for each step.
+Valid answers for each step: yes, y, enter or no, n. Enter q to quit.

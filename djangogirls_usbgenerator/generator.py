@@ -28,7 +28,7 @@ def introduction():
     print(f.renderText('Django Girls'))
     print("""This script will help you to download everything you need for the workshop in case there is no Internet.
 Valid answers for each step: yes, y, enter or no, n.
-Press q to quit.\n""")
+enter q to quit.\n""")
 
 
 def download_file(address, folder):
@@ -58,6 +58,9 @@ def yes_no(function):
         function()
     elif choice in ("no", "n"):
         print("Ok, let's move to the next step!")
+    elif choice in ("q"):
+        print("Goodbye :)")
+        exit()
     else:
         print("I didn't understand your answer. Please, enter yes or no:")
         yes_no(function)
