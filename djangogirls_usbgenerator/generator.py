@@ -3,6 +3,7 @@ import re
 import os
 import cgi
 from clint.textui import progress
+import subprocess
 
 
 def download_steps():
@@ -11,7 +12,9 @@ def download_steps():
     yes_no(tutorial)
     print("Second step: Bootstrap!\nDo you want to download it? Enter yes or no:")
     yes_no(bootstrap)
-    print("Third step: code editors!\nDo you want to download it? Enter yes or no:")
+    print("Third step: Django!\nDo you want to download it? Enter yes or no:")
+    yes_no(django)
+    print("Fourth step: code editor!\nDo you want to download it? Enter yes or no:")
     yes_no(code_editors)
     print("You're done! Bye :)")
 
@@ -82,9 +85,17 @@ def bootstrap():
         print("Failed to find download URL for Bootstrap. Falling back to hardcoded download link.")
         download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/")
 
+
+def django():
+    subprocess.check_call("pip install django==1.8 --download downloads", shell=True)
+    print("Django downloaded.")
+
+
 def code_editors():
     print("Do you want to download Sublime Text 2? Enter enter yes or no:")
     yes_no(sublime_text)
+    print("Do you want to download Atom (64bits)? Enter enter yes or no:")
+    yes_no(atom)
 
 
 def sublime_text():
@@ -96,6 +107,19 @@ def sublime_text():
     download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2.tar.bz2", "downloads/")
     print("Sublime Text 2 for linux downloaded.")
 
+
+def atom():
+    """Download multiple code editor"""
+    download_file("https://github.com/atom/atom/releases/download/v1.0.5/AtomSetup.exe", "downloads/")
+    print("Atom for windows downloaded.")
+    download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-mac.zip", "downloads/")
+    print("Atom for mac downloaded.")
+    download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-mac-symbols.zip", "downloads/")
+    print("Atom-symbols for mac downloaded.")
+    download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom.x86_64.rpm", "downloads/")
+    print("Atom.rpm downloaded.")
+    download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-amd64.deb", "downloads/")
+    print("Atom.deb downloaded.")
 
 if __name__ == '__main__':
     download_steps()
