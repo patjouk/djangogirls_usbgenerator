@@ -7,6 +7,12 @@ import subprocess
 from pyfiglet import Figlet
 
 
+try:
+    FileExistsError
+except NameError:
+    FileExistsError = Exception
+
+
 def download_steps():
     """Launch the different downloading function"""
     introduction()
@@ -55,7 +61,7 @@ def download_file(address, folder):
 
 def yes_no(function):
     """Function to give user the choice to skip a step"""
-    choice = input()
+    choice = raw_input()
     if choice in ("yes", "y", ""):
         function()
     elif choice in ("no", "n"):
@@ -80,7 +86,7 @@ def tutorial():
     tutorials = list_tutorial_languages()
     print("Translations available %s. \nPlease, enter your choice (2 letters language code). If multiple choices, use space as a separator." %tutorials)
     while True:
-        choice = input().split()
+        choice = raw_input().split()
         if all(i in tutorials for i in choice):
             break
         else:
