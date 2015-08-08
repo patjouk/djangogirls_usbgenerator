@@ -15,6 +15,7 @@ setup(
   install_requires=[
       'requests',
       'clint',
-      'pyfiglet'
+      'pyfiglet',
+      'future'
   ],
 )

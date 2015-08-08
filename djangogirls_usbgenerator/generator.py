@@ -2,9 +2,16 @@ import requests
 import re
 import os
 import cgi
+from builtins import input
 from clint.textui import progress
 import subprocess
 from pyfiglet import Figlet
+
+
+try:
+    FileExistsError
+except NameError:
+    FileExistsError = Exception
 
 
 def download_steps():
