@@ -4,21 +4,31 @@ import os
 import cgi
 from clint.textui import progress
 import subprocess
+from pyfiglet import Figlet
 
 
 def download_steps():
     """Launch the different downloading function"""
-    print("First step: tutorial!\nDo you want to download it? Enter yes or no:")
+    introduction()
+    print("First step: tutorial!\nDo you want to download it?")
     yes_no(tutorial)
-    print("Second step: Bootstrap!\nDo you want to download it? Enter yes or no:")
+    print("Second step: Bootstrap!\nDo you want to download it?")
     yes_no(bootstrap)
-    print("Third step: Python!\nDo you want to download it? Enter yes or no:")
+    print("Third step: Python!\nDo you want to download it?")
     yes_no(python)
-    print("Fourth step: Django!\nDo you want to download it? Enter yes or no:")
+    print("Fourth step: Django!\nDo you want to download it?")
     yes_no(django)
-    print("Fifth step: code editor!\nDo you want to download it? Enter yes or no:")
+    print("Fifth step: code editor!\nDo you want to download it?")
     yes_no(code_editors)
     print("You're done! Bye :)")
+
+
+def introduction():
+    f = Figlet(font='standard')
+    print(f.renderText('Django Girls'))
+    print("""This script will help you to download everything you need for the workshop in case there is no Internet.
+Valid answers for each step: yes, y, enter or no, n.
+Press q to quit.\n""")
 
 
 def download_file(address, folder):
@@ -44,7 +54,7 @@ def download_file(address, folder):
 def yes_no(function):
     """Function to give user the choice to skip a step"""
     choice = input()
-    if choice in ("yes", "y"):
+    if choice in ("yes", "y", ""):
         function()
     elif choice in ("no", "n"):
         print("Ok, let's move to the next step!")
@@ -103,9 +113,9 @@ def django():
 
 
 def code_editors():
-    print("Do you want to download Sublime Text 2? Enter enter yes or no:")
+    print("Do you want to download Sublime Text 2?")
     yes_no(sublime_text)
-    print("Do you want to download Atom (64bits)? Enter enter yes or no:")
+    print("Do you want to download Atom (64bits)?")
     yes_no(atom)
 
 
