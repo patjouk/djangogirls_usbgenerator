@@ -11,12 +11,10 @@ You can chose to download everything or skip some parts. You can chose as many l
 
 - Django Girls tutorial
 - Bootstrap
+- Python 3.4.3
 - Django 1.8
 - Sublime Text 2
 - Atom 64bits
-
-Roadmap:
-- Python 3.4.3
 
 ### How to use it?
 

@@ -12,9 +12,11 @@ def download_steps():
     yes_no(tutorial)
     print("Second step: Bootstrap!\nDo you want to download it? Enter yes or no:")
     yes_no(bootstrap)
-    print("Third step: Django!\nDo you want to download it? Enter yes or no:")
+    print("Third step: Python!\nDo you want to download it? Enter yes or no:")
+    yes_no(python)
+    print("Fourth step: Django!\nDo you want to download it? Enter yes or no:")
     yes_no(django)
-    print("Fourth step: code editor!\nDo you want to download it? Enter yes or no:")
+    print("Fifth step: code editor!\nDo you want to download it? Enter yes or no:")
     yes_no(code_editors)
     print("You're done! Bye :)")
 
@@ -86,6 +88,15 @@ def bootstrap():
         download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/")
 
 
+def python():
+    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3.msi", "downloads/")
+    print("Python for Windows 32bits downloaded.")
+    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3.amd64.msi", "downloads/")
+    print("Python for Windows 64bits downloaded.")
+    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3-macosx10.6.pkg", "downloads/")
+    print("Python for Mac downloaded.")
+
+
 def django():
     subprocess.check_call("pip install django==1.8 --download downloads", shell=True)
     print("Django downloaded.")
@@ -101,21 +112,21 @@ def code_editors():
 def sublime_text():
     """Download multiple code editor"""
     download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2 Setup.exe", "downloads/")
-    print("Sublime Text 2 for windows downloaded.")
+    print("Sublime Text 2 for Windows downloaded.")
     download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2.dmg", "downloads/")
-    print("Sublime Text 2 for mac downloaded.")
+    print("Sublime Text 2 for Mac downloaded.")
     download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2.tar.bz2", "downloads/")
-    print("Sublime Text 2 for linux downloaded.")
+    print("Sublime Text 2 for Linux downloaded.")
 
 
 def atom():
     """Download multiple code editor"""
     download_file("https://github.com/atom/atom/releases/download/v1.0.5/AtomSetup.exe", "downloads/")
-    print("Atom for windows downloaded.")
+    print("Atom for Windows downloaded.")
     download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-mac.zip", "downloads/")
-    print("Atom for mac downloaded.")
+    print("Atom for Mac downloaded.")
     download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-mac-symbols.zip", "downloads/")
-    print("Atom-symbols for mac downloaded.")
+    print("Atom-symbols for Mac downloaded.")
     download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom.x86_64.rpm", "downloads/")
     print("Atom.rpm downloaded.")
     download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-amd64.deb", "downloads/")
