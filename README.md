@@ -19,10 +19,16 @@ You can chose to download everything or skip some parts. You can chose as many l
 
 ### How to use it?
 
+Download and install djangogirls_usbgenerator:
+
+```
+pip install djangogirls_usbgenerator
+```
+
 Launch the script:
 
 ```
-python generator.py
+djangogirls_usbgenerator
 ```
 
 Follow the instruction for each step.

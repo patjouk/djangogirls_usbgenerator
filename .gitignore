@@ -1,2 +1,6 @@
 /venv
 .idea/
+djangogirls_usbgenerator.egg-info/
+MANIFEST
+djangogirls_usbgenerator/__pycache__/
+dist/
