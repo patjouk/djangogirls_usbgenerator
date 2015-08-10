@@ -8,7 +8,14 @@ setup(
   author_email = 'lucie.daeye@gmail.com',
   url = 'https://github.com/patjouk/djangogirls_usbgenerator', # use the URL to the github repo
   keywords = ['Django Girls'], # arbitrary keywords
-  classifiers = [],
+  classifiers = [
+      'Development Status :: 4 - Beta',
+      'Environment :: Console',
+      'Intended Audience :: Developers',
+      'Programming Language :: Python :: 3 :: Only',
+      'Topic :: Education',
+      'Topic :: Utilities',
+  ],
   entry_points = {
     'console_scripts': ['djangogirls_usbgenerator=djangogirls_usbgenerator.generator:download_steps'],
   },
