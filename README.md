@@ -7,7 +7,7 @@ The USB generator is a script to download everything you need for the workshop i
 
 ### What's in it?
 
-You can chose to download everything or skip some parts. You can chose as many languages you want for the tutorial.
+You can choose to download everything or skip some parts. You can choose as many languages as you want for the tutorial.
 
 - Django Girls tutorial
 - Bootstrap
