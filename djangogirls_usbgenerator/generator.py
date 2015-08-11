@@ -17,6 +17,8 @@ except NameError:
 def download_steps():
     """Launch the different downloading function"""
     introduction()
+    print("Do you want to download everything? You will be able to chose which tutorial translations you want to download.")
+    yes_no(everything)
     print("Do you want to download the tutorial?")
     yes_no(tutorial)
     print("Do you want to download Bootstrap?")
@@ -73,6 +75,18 @@ def yes_no(function):
     else:
         print("I didn't understand your answer. Please, enter yes or no:")
         yes_no(function)
+
+
+def everything():
+    print("""Once you're done with the tutorial, the rest will download automatically.
+It may take a while so you may want to do something else: relax, enjoy a cup of tea, etc.\n""")
+    tutorial()
+    bootstrap()
+    lobster()
+    python()
+    django()
+    sublime_text()
+    atom()
 
 
 def list_tutorial_languages():
