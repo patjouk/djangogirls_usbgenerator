@@ -32,3 +32,9 @@ Launch the script::
 
 Follow the instruction for each step.
 Valid answers for each step: yes, y, enter or no, n. Enter q to quit.
+
+If you want to download everything::
+
+    djangogirls_usbgenerator --all
+
+You will only be asked which languages you want for the tutorial. The rest will download automatically.

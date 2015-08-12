@@ -15,8 +15,7 @@ except NameError:
     FileExistsError = Exception
 
 @click.command()
-@click.option("--all", is_flag=True, help="Download everything but still prompts for tutorial languages. Use with --lang for full automatic download.")
-@click.option("--lang", help="Add two letters language code to download specific translations. --lang only list available translations.")
+@click.option("--all", is_flag=True, help="Download everything but still prompts for tutorial languages.")
 def download_steps(all):
     """Launch the different downloading function"""
     introduction()
