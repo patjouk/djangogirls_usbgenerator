@@ -6,6 +6,7 @@ from builtins import input
 from clint.textui import progress
 import subprocess
 from pyfiglet import Figlet
+import click
 
 
 try:
@@ -13,25 +14,22 @@ try:
 except NameError:
     FileExistsError = Exception
 
-
-def download_steps():
+@click.command()
+@click.option("--all", is_flag=True, help="Download everything but still prompts for tutorial languages. Use with --lang for full automatic download.")
+@click.option("--lang", help="Add two letters language code to download specific translations. --lang only list available translations.")
+def download_steps(all):
     """Launch the different downloading function"""
     introduction()
-    print("Do you want to download everything? You will be able to chose which tutorial translations you want to download.")
-    yes_no(everything)
-    print("Do you want to download the tutorial?")
-    yes_no(tutorial)
-    print("Do you want to download Bootstrap?")
-    yes_no(bootstrap)
-    print("Do you want to download Lobster font?")
-    yes_no(lobster)
-    print("Do you want to download Python?")
-    yes_no(python)
-    print("Do you want to download Django?")
-    yes_no(django)
-    print("Do you want to download code editors?")
-    yes_no(code_editors)
-    print("You're done! Bye :)")
+    if all:
+        do_it=lambda _, function: function()
+    else:
+        do_it=yes_no
+    do_it("Do you want to download the tutorial?", tutorial)
+    do_it("Do you want to download Bootstrap?", bootstrap)
+    do_it("Do you want to download Lobster font?", lobster)
+    do_it("Do you want to download Python?", python)
+    do_it("Do you want to download Django?", django)
+    do_it("Do you want to download code editors?", code_editors)
 
 
 def introduction():
@@ -62,8 +60,9 @@ def download_file(address, folder):
                 f.flush()
 
 
-def yes_no(function):
+def yes_no(message, function):
     """Function to give user the choice to skip a step"""
+    print(message)
     choice = input()
     if choice in ("yes", "y", ""):
         function()
@@ -75,18 +74,6 @@ def yes_no(function):
     else:
         print("I didn't understand your answer. Please, enter yes or no:")
         yes_no(function)
-
-
-def everything():
-    print("""Once you're done with the tutorial, the rest will download automatically.
-It may take a while so you may want to do something else: relax, enjoy a cup of tea, etc.\n""")
-    tutorial()
-    bootstrap()
-    lobster()
-    python()
-    django()
-    sublime_text()
-    atom()
 
 
 def list_tutorial_languages():
