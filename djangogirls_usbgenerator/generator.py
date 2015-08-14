@@ -71,8 +71,7 @@ def yes_no(message, function):
         print("Goodbye :)")
         exit()
     else:
-        print("I didn't understand your answer. Please, enter yes or no:")
-        yes_no(function)
+        yes_no("I didn't understand your answer. Please, enter yes or no:", function)
 
 
 def list_tutorial_languages():
@@ -128,10 +127,8 @@ def django():
 
 
 def code_editors():
-    print("Do you want to download Sublime Text 2?")
-    yes_no(sublime_text)
-    print("Do you want to download Atom (64bits)?")
-    yes_no(atom)
+    yes_no("Do you want to download Sublime Text 2?", sublime_text)
+    yes_no("Do you want to download Atom (64bits)?", atom)
 
 
 def sublime_text():
