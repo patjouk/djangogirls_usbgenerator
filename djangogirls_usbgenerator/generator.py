@@ -77,7 +77,7 @@ def yes_no(message, function):
 def list_tutorial_languages():
     """Create a list with all the languages available for the tutorial"""
     r = requests.get("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial")
-    tutorials = re.findall(r"\?lang=(.{2})\">([^<]*)<", r.text)
+    tutorials = re.findall(r"\?lang=(.{2})\".*?>(.*?)<", r.text)
     return dict(tutorials)
 
 
