@@ -5,6 +5,7 @@ import re
 import subprocess
 
 import click
+from lxml import html
 from pyfiglet import figlet_format
 import requests
 
@@ -13,6 +14,22 @@ try:
     FileExistsError
 except NameError:
     FileExistsError = Exception
+
+
+BOOTSTRAP_DOWNLOAD_PAGE = 'https://getbootstrap.com/getting-started'
+SUBLIME_DOWNLOAD_PAGE = 'https://www.sublimetext.com/2'
+ATOM_DOWNLOAD_PAGE = 'https://github.com/atom/atom/releases/latest'
+ATOM_DOWLOAD_URL = 'https://github.com/atom/atom/releases/download/v{version}/{platform}'
+
+
+def parse_url(*args, **kwargs):
+    """
+    A tiny utility function that passes all its arguments to `requests.get()`
+    then parses the resulting HTML with lxml.
+    """
+    response = requests.get(*args, **kwargs)
+    response.raise_for_status()
+    return html.fromstring(response.text)
 
 
 def introduction():
@@ -84,16 +101,26 @@ def tutorial():
 
 
 def bootstrap():
-    """Download Bootstrap"""
-    r = requests.get("http://getbootstrap.com/getting-started")
-    m = re.search(r'<a href="([^"]*)"[^>]*>Download Bootstrap</a>', r.text)
-    if m:
-        link = m.group(1)
-        download_file(link, "downloads/")
-        print("Bootstrap downloaded.")
-    else:
-        print("Failed to find download URL for Bootstrap. Falling back to hardcoded download link.")
-        download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/")
+    """
+    Download Bootstrap
+
+    Works by scraping the bootstrap download page which has some HTML that looks
+    somewhat like this:
+
+        <div>
+            <h3 id="download-bootstrap">...</h3>
+            ...
+            <p>
+                <a href="...">...</a>
+            </p>
+        </div>
+"""
+    parsed = parse_url(BOOTSTRAP_DOWNLOAD_PAGE)
+    header = parsed.get_element_by_id('download-bootstrap')
+    anchor = header.getparent().xpath('.//a')[0]
+    link = anchor.attrib['href']
+    download_file(link, "downloads/")
+    print("Bootstrap downloaded.")
 
 
 def lobster():
@@ -121,27 +148,64 @@ def code_editors():
 
 
 def sublime_text():
-    """Download multiple code editor"""
-    download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2 Setup.exe", "downloads/")
-    print("Sublime Text 2 for Windows downloaded.")
-    download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2.dmg", "downloads/")
-    print("Sublime Text 2 for Mac downloaded.")
-    download_file("http://c758482.r82.cf2.rackcdn.com/Sublime Text 2.0.2.tar.bz2", "downloads/")
-    print("Sublime Text 2 for Linux downloaded.")
+    """
+    Download multiple code editor
+
+    Sublime's download page looks somewhat like this:
+        <ul id="dl">
+            <li id="dl_osx"><a href="...">OS X</a></li>
+            <li id="dl_win_32">...</li>
+            ...
+        </ul>
+    """
+    PLATFORM_IDS = {
+        'dl_osx': 'Mac',
+        'dl_win_32': 'Windows (32 bits)',
+        'dl_win_64': 'Windows (64 bits)',
+        'dl_linux_32': 'Linux (32 bits)',
+        'dl_linux_64': 'Linux (64 bits)',
+    }
+    parsed = parse_url(SUBLIME_DOWNLOAD_PAGE)
+
+    for platform_id, platform_name in PLATFORM_IDS.items():
+        element = parsed.get_element_by_id(platform_id)
+        anchor = element.find('a')
+        url = anchor.attrib['href']
+        download_file(url, 'downloads/')
+        print("Sublime Text 2 for %s downloaded." % platform_name)
 
 
 def atom():
-    """Download multiple code editor"""
-    download_file("https://github.com/atom/atom/releases/download/v1.0.5/AtomSetup.exe", "downloads/")
-    print("Atom for Windows downloaded.")
-    download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-mac.zip", "downloads/")
-    print("Atom for Mac downloaded.")
-    download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-mac-symbols.zip", "downloads/")
-    print("Atom-symbols for Mac downloaded.")
-    download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom.x86_64.rpm", "downloads/")
-    print("Atom.rpm downloaded.")
-    download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-amd64.deb", "downloads/")
-    print("Atom.deb downloaded.")
+    """
+    Download multiple code editor
+
+    The download URL for a given platform is predictable provided you know
+    which version you want.
+    To determine the version, we hit ATOM_DOWNLOAD_PAGE which is a 302 redirect
+    to a URL that contains the latest version. We match that URL against a
+    regex to check it looks like what we're expecting and to extract the version
+    number.
+"""
+    RELEASES = {
+        'AtomSetup.exe': 'Windows',
+        'atom-mac.zip': 'Mac',
+        'atom-mac-symbols.zip': 'Mac (symbols)',
+        'atom.x86_64.rpm': 'Fedora',
+        'atom-amd64.deb': 'Debian/Ubuntu',
+    }
+    RELEASE_URL_RE = r'^https://github\.com/atom/atom/releases/tag/v(?P<version>[0-9.]+)$'
+
+    response = requests.head(ATOM_DOWNLOAD_PAGE)
+    assert response.status_code == 302
+    redirect_url = response.headers['location']
+    match = re.search(RELEASE_URL_RE, redirect_url)
+    assert match is not None
+    latest_version = match.group('version')
+
+    for platform_filename, platform_name in RELEASES.items():
+        url = ATOM_DOWLOAD_URL.format(version=latest_version, platform=platform_filename)
+        download_file(url, 'downloads/')
+        print("Atom for %s downloaded." % platform_name)
 
 
 OPERATIONS = OrderedDict([
