@@ -88,13 +88,16 @@ def list_tutorial_languages():
 def tutorial():
     """Download tutorial, multiple languages possible"""
     tutorials = list_tutorial_languages()
-    print("Translations available %s. \nPlease, enter your choice (2 letters language code). If multiple choices, use space as a separator." % tutorials)
+    print("Translations available:")
+    for code, lang in tutorials.items():
+        print("    %s: %s" % (code, lang))
+    print("Please, enter your choice (2 letters language code). If multiple choices, use space as a separator.")
     while True:
         choice = input().split()
         if all(i in tutorials for i in choice):
             break
         else:
-            print("2 letters code not recognized. Choose again in this list: %s" % tutorials)
+            print("2 letters code not recognized. Choose again in this list: %s" % ', '.join(tutorials))
     for i in choice:
         download_file("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang=%s" % i, "downloads/")
         print("%s tutorial downloaded" % tutorials[i])
