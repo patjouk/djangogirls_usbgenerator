@@ -1,12 +1,13 @@
-import requests
-import re
-import os
 import cgi
-from builtins import input
-from clint.textui import progress
+import os
+import re
 import subprocess
-from pyfiglet import Figlet
+
+from builtins import input
 import click
+from clint.textui import progress
+from pyfiglet import Figlet
+import requests
 
 
 try:
