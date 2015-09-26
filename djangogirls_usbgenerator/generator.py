@@ -4,7 +4,6 @@ import re
 import subprocess
 
 import click
-from clint.textui import progress
 from pyfiglet import Figlet
 import requests
 
@@ -56,8 +55,8 @@ def download_file(address, folder):
     download_file_path = os.path.join(folder, name)
     with open(download_file_path, "wb") as f:
         expected_size = (total_length / 1024) + 1
-        for chunk in progress.bar(r.iter_content(1024), expected_size=expected_size):
-            if chunk:
+        with click.progressbar(r.iter_content(1024), length=expected_size) as chunks:
+            for chunk in chunks:
                 f.write(chunk)
                 f.flush()
 
