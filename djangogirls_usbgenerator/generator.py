@@ -128,7 +128,7 @@ def python():
 
 
 def django():
-    subprocess.check_call("pip install django==1.8 --download downloads", shell=True)
+    subprocess.check_call(['pip' 'install' 'django==1.8', '--download', 'downloads'])
     print("Django downloaded.")
 
 
