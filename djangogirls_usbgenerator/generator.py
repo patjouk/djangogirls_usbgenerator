@@ -4,7 +4,7 @@ import re
 import subprocess
 
 import click
-from pyfiglet import Figlet
+from pyfiglet import figlet_format
 import requests
 
 
@@ -32,8 +32,7 @@ def download_steps(all):
 
 
 def introduction():
-    f = Figlet(font='standard')
-    print(f.renderText('Django Girls'))
+    print(figlet_format('Django Girls'))
     print("""This script will help you to download everything you need for the workshop in case there is no Internet.
 Valid answers for each step: yes, y, enter or no, n.
 Enter q to quit.\n""")
