@@ -1,4 +1,5 @@
 import cgi
+from collections import OrderedDict
 import os
 import re
 import subprocess
@@ -12,23 +13,6 @@ try:
     FileExistsError
 except NameError:
     FileExistsError = Exception
-
-
-@click.command()
-@click.option("--all", is_flag=True, help="Download everything but still prompts for tutorial languages.")
-def download_steps(all):
-    """Launch the different downloading function"""
-    introduction()
-    if all:
-        do_it = lambda _, function: function()
-    else:
-        do_it = yes_no
-    do_it("Do you want to download the tutorial?", tutorial)
-    do_it("Do you want to download Bootstrap?", bootstrap)
-    do_it("Do you want to download Lobster font?", lobster)
-    do_it("Do you want to download Python?", python)
-    do_it("Do you want to download Django?", django)
-    do_it("Do you want to download code editors?", code_editors)
 
 
 def introduction():
@@ -158,6 +142,30 @@ def atom():
     print("Atom.rpm downloaded.")
     download_file("https://github.com/atom/atom/releases/download/v1.0.5/atom-amd64.deb", "downloads/")
     print("Atom.deb downloaded.")
+
+
+OPERATIONS = OrderedDict([
+    ("the tutorial", tutorial),
+    ("Bootstrap", bootstrap),
+    ("Lobster font", lobster),
+    ("Python", python),
+    ("Django", django),
+    ("code editors", code_editors),
+])
+
+
+@click.command()
+@click.option("--all", is_flag=True, help="Download everything but still prompts for tutorial languages.")
+def download_steps(all):
+    """Launch the different downloading function"""
+    introduction()
+    if all:
+        do_it = lambda _, function: function()
+    else:
+        do_it = yes_no
+
+    for label, fn in OPERATIONS.items():
+        do_it("Do you want to download %s?" % label, fn)
 
 if __name__ == '__main__':
     download_steps()
