@@ -15,15 +15,16 @@ try:
 except NameError:
     FileExistsError = Exception
 
+
 @click.command()
 @click.option("--all", is_flag=True, help="Download everything but still prompts for tutorial languages.")
 def download_steps(all):
     """Launch the different downloading function"""
     introduction()
     if all:
-        do_it=lambda _, function: function()
+        do_it = lambda _, function: function()
     else:
-        do_it=yes_no
+        do_it = yes_no
     do_it("Do you want to download the tutorial?", tutorial)
     do_it("Do you want to download Bootstrap?", bootstrap)
     do_it("Do you want to download Lobster font?", lobster)
@@ -53,8 +54,9 @@ def download_file(address, folder):
     else:
         name = address.split("/")[-1]
     total_length = int(r.headers.get('content-length'))
-    with open(folder+"/"+name, "wb") as f:
-        for chunk in progress.bar(r.iter_content(1024), expected_size=(total_length/1024) + 1):
+    with open(folder + "/" + name, "wb") as f:
+        expected_size = (total_length / 1024) + 1
+        for chunk in progress.bar(r.iter_content(1024), expected_size=expected_size):
             if chunk:
                 f.write(chunk)
                 f.flush()
@@ -85,16 +87,16 @@ def list_tutorial_languages():
 def tutorial():
     """Download tutorial, multiple languages possible"""
     tutorials = list_tutorial_languages()
-    print("Translations available %s. \nPlease, enter your choice (2 letters language code). If multiple choices, use space as a separator." %tutorials)
+    print("Translations available %s. \nPlease, enter your choice (2 letters language code). If multiple choices, use space as a separator." % tutorials)
     while True:
         choice = input().split()
         if all(i in tutorials for i in choice):
             break
         else:
-            print("2 letters code not recognized. Choose again in this list: %s" %tutorials)
+            print("2 letters code not recognized. Choose again in this list: %s" % tutorials)
     for i in choice:
-        download_file("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang=%s" %i, "downloads/")
-        print("%s tutorial downloaded" %tutorials[i])
+        download_file("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang=%s" % i, "downloads/")
+        print("%s tutorial downloaded" % tutorials[i])
 
 
 def bootstrap():
@@ -109,9 +111,11 @@ def bootstrap():
         print("Failed to find download URL for Bootstrap. Falling back to hardcoded download link.")
         download_file("https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip", "downloads/")
 
+
 def lobster():
     download_file("http://dl.dafont.com/dl/?f=lobster", "downloads/")
     print("Lobster font downloaded.")
+
 
 def python():
     download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3.msi", "downloads/")
