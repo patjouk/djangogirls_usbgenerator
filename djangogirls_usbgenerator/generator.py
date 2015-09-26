@@ -54,7 +54,8 @@ def download_file(address, folder):
     else:
         name = address.split("/")[-1]
     total_length = int(r.headers.get('content-length'))
-    with open(folder + "/" + name, "wb") as f:
+    download_file_path = os.path.join(folder, name)
+    with open(download_file_path, "wb") as f:
         expected_size = (total_length / 1024) + 1
         for chunk in progress.bar(r.iter_content(1024), expected_size=expected_size):
             if chunk:
