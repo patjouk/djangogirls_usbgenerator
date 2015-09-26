@@ -3,7 +3,6 @@ import os
 import re
 import subprocess
 
-from builtins import input
 import click
 from clint.textui import progress
 from pyfiglet import Figlet
@@ -65,8 +64,7 @@ def download_file(address, folder):
 
 def yes_no(message, function):
     """Function to give user the choice to skip a step"""
-    print(message)
-    choice = input()
+    choice = click.prompt(message)
     if choice in ("yes", "y", ""):
         function()
     elif choice in ("no", "n"):
@@ -93,7 +91,7 @@ def tutorial():
         print("    %s: %s" % (code, lang))
     print("Please, enter your choice (2 letters language code). If multiple choices, use space as a separator.")
     while True:
-        choice = input().split()
+        choice = click.prompt('').split()
         if all(i in tutorials for i in choice):
             break
         else:

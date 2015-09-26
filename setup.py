@@ -23,7 +23,6 @@ setup(
       'requests',
       'clint',
       'pyfiglet',
-      'future',
       'click'
   ],
 )
