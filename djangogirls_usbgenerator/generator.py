@@ -4,6 +4,11 @@ import os
 import re
 import subprocess
 
+try:
+    import urlparse
+except ImportError:
+    import urllib.parse as urlparse
+
 import click
 from lxml import html
 from pyfiglet import figlet_format
@@ -20,6 +25,7 @@ BOOTSTRAP_DOWNLOAD_PAGE = 'https://getbootstrap.com/getting-started'
 SUBLIME_DOWNLOAD_PAGE = 'https://www.sublimetext.com/2'
 ATOM_DOWNLOAD_PAGE = 'https://github.com/atom/atom/releases/latest'
 ATOM_DOWLOAD_URL = 'https://github.com/atom/atom/releases/download/v{version}/{platform}'
+TUTORIAL_DOWNLOAD_PAGE = 'https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial'
 
 
 def parse_url(*args, **kwargs):
@@ -75,18 +81,43 @@ def yes_no(message, function):
         yes_no("I didn't understand your answer. Please, enter yes or no:", function)
 
 
+def _get_lang_from_url(url):
+    """
+    Capture the lang paramater from a URL.
+    http://example.com?lang=fr
+    """
+    querystring = urlparse.urlparse(url).query
+    query = urlparse.parse_qs(querystring)
+    lang = query['lang']
+    assert len(lang) == 1
+    return lang[0]
+
+
 def list_tutorial_languages():
-    """Create a list with all the languages available for the tutorial"""
-    r = requests.get("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial")
-    tutorials = re.findall(r"\?lang=(.{2})\".*?>(.*?)<", r.text)
-    return dict(tutorials)
+    """
+    Create a list with all the languages available for the tutorial
+    The download page has HTML that looks like:
+
+        <div class="list-group">
+            <a href="...?lang=en">English</a>
+            <a href="...?lang=fr">Français</a>
+            ...
+        </div
+    """
+    parsed = parse_url(TUTORIAL_DOWNLOAD_PAGE)
+    lang_list = parsed.find_class('list-group')
+    assert len(lang_list) == 1
+    lang_list = lang_list[0]
+    lang_list.make_links_absolute('https://www.gitbook.com')
+    anchors = lang_list.findall('a')
+    return {_get_lang_from_url(anchor.attrib['href']): (anchor.attrib['href'], anchor.text_content().strip()) for anchor in anchors}
 
 
 def tutorial():
     """Download tutorial, multiple languages possible"""
     tutorials = list_tutorial_languages()
     print("Translations available:")
-    for code, lang in tutorials.items():
+    for code, (_, lang) in tutorials.items():
         print("    %s: %s" % (code, lang))
     print("Please, enter your choice (2 letters language code). If multiple choices, use space as a separator.")
     while True:
@@ -95,9 +126,11 @@ def tutorial():
             break
         else:
             print("2 letters code not recognized. Choose again in this list: %s" % ', '.join(tutorials))
-    for i in choice:
-        download_file("https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang=%s" % i, "downloads/")
-        print("%s tutorial downloaded" % tutorials[i])
+
+    for lang in choice:
+        url, lang_name = tutorials[lang]
+        download_file(url, "downloads/")
+        print("%s tutorial downloaded" % lang_name)
 
 
 def bootstrap():
