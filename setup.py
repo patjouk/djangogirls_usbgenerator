@@ -21,9 +21,8 @@ setup(
   },
   install_requires=[
       'requests',
-      'clint',
       'pyfiglet',
-      'future',
-      'click'
+      'click',
+      'lxml',
   ],
 )
