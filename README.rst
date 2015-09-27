@@ -38,3 +38,8 @@ If you want to download everything::
     djangogirls_usbgenerator --all
 
 You will only be asked which languages you want for the tutorial. The rest will download automatically.
+
+Special thanks
+--------------
+
+Baptiste Mispelon
