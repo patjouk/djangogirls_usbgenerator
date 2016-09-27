@@ -44,13 +44,15 @@ def introduction():
 Valid answers for each step: yes, y, enter or no, n.
 Enter q to quit.\n""")
 
-
-def download_file(address, folder):
-    """Function for downloading stuff"""
+def create_directory():
     try:
         os.mkdir("downloads")
     except FileExistsError:
         pass
+
+def download_file(address, folder):
+    """Function for downloading stuff"""
+    create_directory()
     r = requests.get(address, stream=True)
     if "Content-Disposition" in r.headers:
         _, params = cgi.parse_header(r.headers["Content-Disposition"])
@@ -121,6 +123,7 @@ def bootstrap():
     header = parsed.get_element_by_id('download-bootstrap')
     anchor = header.getparent().xpath('.//a')[0]
     link = anchor.attrib['href']
+    print(link)
     download_file(link, "downloads/")
     print("Bootstrap downloaded.")
 
@@ -131,16 +134,17 @@ def lobster():
 
 
 def python():
-    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3.msi", "downloads/")
+    download_file("https://www.python.org/ftp/python/3.5.2/python-3.5.2.exe", "downloads/")
     print("Python for Windows 32bits downloaded.")
-    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3.amd64.msi", "downloads/")
+    download_file("https://www.python.org/ftp/python/3.5.2/python-3.5.2-amd64.exe", "downloads/")
     print("Python for Windows 64bits downloaded.")
-    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3-macosx10.6.pkg", "downloads/")
+    download_file("https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg", "downloads/")
     print("Python for Mac downloaded.")
 
 
 def django():
-    subprocess.check_call(['pip', 'install', 'django==1.9', '--download', 'downloads'])
+    create_directory()
+    subprocess.check_call(['pip', 'install', 'django~=1.10', '--download', 'downloads'])
     print("Django downloaded.")
 
 

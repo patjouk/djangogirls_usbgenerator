@@ -4,7 +4,7 @@ USB generator
 What is it?
 -----------
 
-The USB generator is a script to download everything you need for the workshop in case there is no Internet.
+The USB generator is a script to download everything you need for a Django Girls' workshop in case there is no Internet.
 
 What's in it?
 -------------
@@ -14,8 +14,8 @@ You can choose to download everything or skip some parts. You can choose as many
 - Django Girls tutorial
 - Bootstrap
 - Lobster font
-- Python 3.4.3
-- Django 1.8
+- Python 3.5.2
+- Django 1.10
 - Sublime Text 2
 - Atom 64bits
 
