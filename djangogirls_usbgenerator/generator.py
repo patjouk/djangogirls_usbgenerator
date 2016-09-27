@@ -131,11 +131,11 @@ def lobster():
 
 
 def python():
-    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3.msi", "downloads/")
+    download_file("https://www.python.org/ftp/python/3.5.0/python-3.5.0.exe", "downloads/")
     print("Python for Windows 32bits downloaded.")
-    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3.amd64.msi", "downloads/")
+    download_file("https://www.python.org/ftp/python/3.5.0/python-3.5.0-amd64.exe", "downloads/")
     print("Python for Windows 64bits downloaded.")
-    download_file("https://www.python.org/ftp/python/3.4.3/python-3.4.3-macosx10.6.pkg", "downloads/")
+    download_file("https://www.python.org/ftp/python/3.5.0/python-3.5.0-macosx10.6.pkg", "downloads/")
     print("Python for Mac downloaded.")
 
 
