@@ -81,55 +81,24 @@ def yes_no(message, function):
         yes_no("I didn't understand your answer. Please, enter yes or no:", function)
 
 
-def _get_lang_from_url(url):
-    """
-    Capture the lang paramater from a URL.
-    http://example.com?lang=fr
-    """
-    querystring = urlparse.urlparse(url).query
-    query = urlparse.parse_qs(querystring)
-    lang = query['lang']
-    assert len(lang) == 1
-    return lang[0]
-
-
-def list_tutorial_languages():
-    """
-    Create a list with all the languages available for the tutorial
-    The download page has HTML that looks like:
-
-        <div class="list-group">
-            <a href="...?lang=en">English</a>
-            <a href="...?lang=fr">Français</a>
-            ...
-        </div
-    """
-    parsed = parse_url(TUTORIAL_DOWNLOAD_PAGE)
-    lang_list = parsed.find_class('list-group')
-    assert len(lang_list) == 1
-    lang_list = lang_list[0]
-    lang_list.make_links_absolute('https://www.gitbook.com')
-    anchors = lang_list.findall('a')
-    return {_get_lang_from_url(anchor.attrib['href']): (anchor.attrib['href'], anchor.text_content().strip()) for anchor in anchors}
-
 
 def tutorial():
-    """Download tutorial, multiple languages possible"""
-    tutorials = list_tutorial_languages()
+    """Gitbook made their page difficult to parse :'(. Hardcoding links to tutorial pdf while working on a better solution."""
+    url = "https://www.gitbook.com/download/pdf/book/djangogirls/djangogirls-tutorial?lang="
+    languages = {"cs": "Czech", "en": "English", "es": "Spanish", "fr": "French", "hu": "Hungarian", "it": "Italian", "ko": "Korean", "pl": "Polish", "pt": "Portuguese", "ru": "Russian", "sk": "Slovak", "tr": "Turkish", "uk": "Ukrainian", "zh": "Chinese"}
     print("Translations available:")
-    for code, (_, lang) in tutorials.items():
-        print("    %s: %s" % (code, lang))
+    print(", ".join("%s: %s" %(k, v) for k, v in sorted(languages.items())))
     print("Please, enter your choice (2 letters language code). If multiple choices, use space as a separator.")
     while True:
-        choice = click.prompt('').split()
-        if all(i in tutorials for i in choice):
-            break
-        else:
-            print("2 letters code not recognized. Choose again in this list: %s" % ', '.join(tutorials))
+         choice = click.prompt('').split()
+         if all(i in languages for i in choice):
+             break
+         else:
+             print("2 letters code not recognized. Choose again in this list: %s" % ', '.join(languages))
 
     for lang in choice:
-        url, lang_name = tutorials[lang]
-        download_file(url, "downloads/")
+        lang_name = languages[lang]
+        download_file(url + lang, "downloads/")
         print("%s tutorial downloaded" % lang_name)
 
 
