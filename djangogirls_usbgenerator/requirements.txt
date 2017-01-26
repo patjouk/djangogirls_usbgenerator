@@ -1,0 +1,8 @@
+appdirs==1.4.0
+click==6.7
+lxml==3.7.2
+packaging==16.8
+pyfiglet==0.7.5
+pyparsing==2.1.10
+requests==2.13.0
+six==1.10.0
