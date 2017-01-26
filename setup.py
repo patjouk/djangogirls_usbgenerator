@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'djangogirls_usbgenerator',
   packages = ['djangogirls_usbgenerator'], # this must be the same as the name above
-  version = '1.1',
+  version = '1.2',
   description = 'USB generator is a script to download everything you need for Django Girls workshop in case there is no Internet.',
   author = 'Lucie Daeye',
   author_email = 'lucie.daeye@gmail.com',
@@ -24,5 +24,6 @@ setup(
       'pyfiglet',
       'click',
       'lxml',
+      'tqdm',
   ],
 )
