@@ -6,3 +6,4 @@ pyfiglet==0.7.5
 pyparsing==2.1.10
 requests==2.13.0
 six==1.10.0
+tqdm==4.11.2

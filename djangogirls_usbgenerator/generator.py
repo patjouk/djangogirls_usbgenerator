@@ -13,6 +13,7 @@ import click
 from lxml import html
 from pyfiglet import figlet_format
 import requests
+from tqdm import tqdm
 
 
 try:
@@ -59,14 +60,17 @@ def download_file(address, folder):
         name = params["filename"]
     else:
         name = address.split("/")[-1]
-    total_length = int(r.headers.get('content-length'))
+    content_length = r.headers.get('content-length')
+    if content_length:
+        total = int(content_length) // 1024 +1
+    else:
+        total = None
     download_file_path = os.path.join(folder, name)
     with open(download_file_path, "wb") as f:
-        expected_size = (total_length / 1024) + 1
-        with click.progressbar(r.iter_content(1024), length=expected_size) as chunks:
-            for chunk in chunks:
-                f.write(chunk)
-                f.flush()
+        chunks = tqdm(r.iter_content(1024), total=total)
+        for chunk in chunks:
+            f.write(chunk)
+            f.flush()
 
 
 def yes_no(message, function):
