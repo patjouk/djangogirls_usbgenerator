@@ -148,7 +148,7 @@ def python():
 
 def django():
     create_directory()
-    subprocess.check_call(['pip', 'install', 'django~=1.10', '--download', 'downloads'])
+    subprocess.check_call(['pip', 'download', 'django~=1.11', '-d', 'downloads'])
     print("Django downloaded.")
 
 
