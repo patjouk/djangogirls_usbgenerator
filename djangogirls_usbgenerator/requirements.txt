@@ -1,6 +1,6 @@
 appdirs==1.4.0
 click==6.7
-lxml==3.7.2
+lxml==4.6.3
 packaging==16.8
 pyfiglet==0.7.5
 pyparsing==2.1.10
